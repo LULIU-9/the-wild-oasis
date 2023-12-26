@@ -5,46 +5,11 @@ import Form from "../../ui/Form";
 import Button from "../../ui/Button";
 import FileInput from "../../ui/FileInput";
 import Textarea from "../../ui/Textarea";
+import FormRow from "../../ui/FormRow";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createCabin } from "../../services/apiCabin";
 import toast from "react-hot-toast";
-
-const FormRow = styled.div`
-  display: grid;
-  align-items: center;
-  grid-template-columns: 24rem 1fr 1.2fr;
-  gap: 2.4rem;
-
-  padding: 1.2rem 0;
-
-  &:first-child {
-    padding-top: 0;
-  }
-
-  &:last-child {
-    padding-bottom: 0;
-  }
-
-  &:not(:last-child) {
-    border-bottom: 1px solid var(--color-grey-100);
-  }
-
-  &:has(button) {
-    display: flex;
-    justify-content: flex-end;
-    gap: 1.2rem;
-  }
-`;
-
-const Label = styled.label`
-  font-weight: 500;
-`;
-
-const Error = styled.span`
-  font-size: 1.4rem;
-  color: var(--color-red-700);
-`;
 
 function CreateCabinForm() {
   const queryClient = useQueryClient();
@@ -66,13 +31,10 @@ function CreateCabinForm() {
   const onSubmit = (data) => {
     mutate(data);
   };
-  const onError = (errors) => {
-    console.log(errors);
-  };
+  const onError = (errors) => {};
   return (
     <Form onSubmit={handleSubmit(onSubmit, onError)}>
-      <FormRow>
-        <Label htmlFor="name">Cabin name</Label>
+      <FormRow label="Cabin name" error={errors?.name?.message}>
         <Input
           type="text"
           id="name"
@@ -80,11 +42,9 @@ function CreateCabinForm() {
             required: "This field is required",
           })}
         />
-        {errors?.name?.message && <Error>{errors.name.message}</Error>}
       </FormRow>
 
-      <FormRow>
-        <Label htmlFor="maxCapacity">Maximum capacity</Label>
+      <FormRow label="Maximum capacity" error={errors?.maxCapacity?.message}>
         <Input
           type="number"
           id="maxCapacity"
@@ -96,13 +56,9 @@ function CreateCabinForm() {
             },
           })}
         />
-        {errors?.maxCapacity?.message && (
-          <Error>{errors.maxCapacity.message}</Error>
-        )}
       </FormRow>
 
-      <FormRow>
-        <Label htmlFor="regularPrice">Regular price</Label>
+      <FormRow label="Regular price" error={errors?.name?.message}>
         <Input
           type="number"
           id="regularPrice"
@@ -114,13 +70,9 @@ function CreateCabinForm() {
             },
           })}
         />
-        {errors?.regularPrice?.message && (
-          <Error>{errors.regularPrice.message}</Error>
-        )}
       </FormRow>
 
-      <FormRow>
-        <Label htmlFor="discount">Discount</Label>
+      <FormRow label="Discount" error={errors?.discount?.message}>
         <Input
           type="number"
           id="discount"
@@ -132,11 +84,12 @@ function CreateCabinForm() {
               "Discount should be less than regular price",
           })}
         />
-        {errors?.discount?.message && <Error>{errors.discount.message}</Error>}
       </FormRow>
 
-      <FormRow>
-        <Label htmlFor="description">Description for website</Label>
+      <FormRow
+        label="Description for website"
+        error={errors?.description?.message}
+      >
         <Textarea
           type="number"
           id="description"
@@ -145,13 +98,9 @@ function CreateCabinForm() {
             required: "This field is required",
           })}
         />
-        {errors?.description?.message && (
-          <Error>{errors.description.message}</Error>
-        )}
       </FormRow>
 
-      <FormRow>
-        <Label htmlFor="image">Cabin photo</Label>
+      <FormRow label="Cabin photo">
         <FileInput id="image" accept="image/*" />
       </FormRow>
 

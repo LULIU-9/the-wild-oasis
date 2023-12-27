@@ -6,6 +6,8 @@ import toast from "react-hot-toast";
 import { useState } from "react";
 import CreateCabinForm from "./CreateCabinForm";
 import { useDeleteCabin } from "./useDeleteCabin";
+import { HiPencil, HiSquare2Stack, HiTrash } from "react-icons/hi2";
+import { useCreateCabin } from "./useCreateCabin";
 
 const TableRow = styled.div`
   display: grid;
@@ -59,6 +61,17 @@ function CabinRow({ cabin }) {
   const [showForm, setShowForm] = useState(false);
 
   const { isDeleting, deleteCabin } = useDeleteCabin();
+  const { isCreating, createCabin } = useCreateCabin();
+
+  const handleDuplicate = () => {
+    createCabin({
+      name: `copy of ${name}`,
+      maxCapacity,
+      regularPrice,
+      discount,
+      image,
+    });
+  };
 
   return (
     <>
@@ -73,11 +86,14 @@ function CabinRow({ cabin }) {
           <span>&mdash;</span>
         )}
         <div>
+          <button onClick={handleDuplicate}>
+            <HiSquare2Stack />
+          </button>
           <button onClick={() => setShowForm((showForm) => !showForm)}>
-            Edit
+            <HiPencil />
           </button>
           <button onClick={() => deleteCabin(cabinId)} disabled={isDeleting}>
-            Delete
+            <HiTrash />
           </button>
         </div>
       </TableRow>

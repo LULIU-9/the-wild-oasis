@@ -19,9 +19,13 @@ export async function deleteCabin(id) {
 }
 
 export async function createCabin(cabin) {
+  const hasImagePath = cabin.image?.startsWith?.(supabaseUrl);
+
   const imageName = `${Math.random()}-${cabin.image.name}`.replaceAll("/", "");
 
-  const imagePath = `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`;
+  const imagePath = hasImagePath
+    ? cabin.image
+    : `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`;
 
   // 1. create new cabin
   const { data, error } = await supabase
@@ -36,19 +40,20 @@ export async function createCabin(cabin) {
   }
 
   // 2. upload image
+  if (!hasImagePath) {
+    const { error: uploadError } = await supabase.storage
+      .from("cabin-images")
+      .upload(imageName, cabin.image);
 
-  const { error: uploadError } = await supabase.storage
-    .from("cabin-images")
-    .upload(imageName, cabin.image);
+    // 3. delete cabin if image fail to uplode
 
-  // 3. delete cabin if image fail to uplode
-
-  if (uploadError) {
-    await supabase.from("cabins").delete().eq("id", data.id);
-    console.log(uploadError);
-    throw new Error(
-      "cabin image could not be uploaded and cabin could not be created"
-    );
+    if (uploadError) {
+      await supabase.from("cabins").delete().eq("id", data.id);
+      console.log(uploadError);
+      throw new Error(
+        "cabin image could not be uploaded and cabin could not be created"
+      );
+    }
   }
 
   return data;

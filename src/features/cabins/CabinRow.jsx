@@ -63,6 +63,8 @@ function CabinRow({ cabin }) {
   const { isDeleting, deleteCabin } = useDeleteCabin();
   const { isCreating, createCabin } = useCreateCabin();
 
+  const isWorking = isDeleting || isCreating;
+
   const handleDuplicate = () => {
     createCabin({
       name: `copy of ${name}`,
@@ -86,13 +88,16 @@ function CabinRow({ cabin }) {
           <span>&mdash;</span>
         )}
         <div>
-          <button onClick={handleDuplicate}>
+          <button onClick={handleDuplicate} disabled={isWorking}>
             <HiSquare2Stack />
           </button>
-          <button onClick={() => setShowForm((showForm) => !showForm)}>
+          <button
+            onClick={() => setShowForm((showForm) => !showForm)}
+            disabled={isWorking}
+          >
             <HiPencil />
           </button>
-          <button onClick={() => deleteCabin(cabinId)} disabled={isDeleting}>
+          <button onClick={() => deleteCabin(cabinId)} disabled={isWorking}>
             <HiTrash />
           </button>
         </div>

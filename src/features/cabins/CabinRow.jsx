@@ -6,6 +6,7 @@ import { formatCurrency } from "../../utils/helpers";
 import CreateCabinForm from "./CreateCabinForm";
 import { useCreateCabin } from "./useCreateCabin";
 import { useDeleteCabin } from "./useDeleteCabin";
+import Menus from "../../ui/Menus";
 
 const TableRow = styled.div`
   display: grid;
@@ -83,26 +84,26 @@ function CabinRow({ cabin }) {
         <span>&mdash;</span>
       )}
       <div>
-        <button onClick={handleDuplicate} disabled={isWorking}>
-          <HiSquare2Stack />
-        </button>
         <Modal>
-          <Modal.Open openWindow="edit">
-            <button disabled={isWorking}>
-              <HiPencil />
-            </button>
-          </Modal.Open>
+          <Menus>
+            <Menus.Toggle id={cabinId} />
+
+            <Menus.List id={cabinId}>
+              <Menus.Button icon={<HiSquare2Stack />} onClick={handleDuplicate}>
+                duplicate
+              </Menus.Button>
+              <Modal.Open openWindow="edit">
+                <Menus.Button icon={<HiPencil />}>edit</Menus.Button>
+              </Modal.Open>
+              <Modal.Open openWindow="delete">
+                <Menus.Button icon={<HiTrash />}>delete</Menus.Button>
+              </Modal.Open>
+            </Menus.List>
+          </Menus>
+
           <Modal.Window name="edit">
             <CreateCabinForm cabinToEdit={cabin} />
           </Modal.Window>
-        </Modal>
-
-        <Modal>
-          <Modal.Open openWindow="delete">
-            <button onClick={() => deleteCabin(cabinId)} disabled={isWorking}>
-              <HiTrash />
-            </button>
-          </Modal.Open>
           <Modal.Window name="delete">
             <ConfirmDelete
               resource="cabin"

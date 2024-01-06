@@ -18,6 +18,7 @@ import { useMoveBack } from "../../hooks/useMoveBack";
 import ButtonText from "../../ui/ButtonText";
 import Empty from "../../ui/Empty";
 import { useCheckout } from "../check-in-out/useCheckout";
+import { useDeleteBooking } from "./useDeleteBooking";
 
 const HeadingGroup = styled.div`
   display: flex;
@@ -27,8 +28,9 @@ const HeadingGroup = styled.div`
 
 function BookingDetail() {
   const { booking, isLoading } = useBooking();
-  // // const { mutate: deleteBooking, isLoading: isDeleting } = useDeleteBooking();
+
   const { mutate: checkout, isLoading: isCheckingOut } = useCheckout();
+  const { deleteBooking, isDeleting } = useDeleteBooking();
 
   const moveBack = useMoveBack();
   const navigate = useNavigate();
@@ -70,19 +72,21 @@ function BookingDetail() {
           </Button>
         )}
 
-        {/* <Modal>
-          <Modal.Toggle opens='delete'>
-            <Button variation='danger'>Delete booking</Button>
-          </Modal.Toggle>
-          <Modal.Window name='delete'>
+        <Modal>
+          <Modal.Open openWindow="delete">
+            <Button variation="danger">Delete booking</Button>
+          </Modal.Open>
+          <Modal.Window name="delete">
             <ConfirmDelete
-              resource='booking'
+              resource="booking"
               // These options will be passed wherever the function gets called, and they determine what happens next
-              onConfirm={(options) => deleteBooking(bookingId, options)}
+              onConfirm={() =>
+                deleteBooking(bookingId, { onSettled: () => navigate(-1) })
+              }
               disabled={isDeleting}
             />
           </Modal.Window>
-        </Modal> */}
+        </Modal>
 
         <Button variation="secondary" onClick={moveBack}>
           Back

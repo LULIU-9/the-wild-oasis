@@ -18,6 +18,7 @@ import { formatCurrency } from "../../utils/helpers";
 import { formatDistanceFromNow } from "../../utils/helpers";
 
 import { format, isToday } from "date-fns";
+import { useCheckout } from "../check-in-out/useCheckout";
 
 // v1
 // const TableRow = styled.div`
@@ -74,7 +75,7 @@ function BookingRow({
   },
 }) {
   // const { mutate: deleteBooking, isLoading: isDeleting } = useDeleteBooking();
-  // const { mutate: checkout, isLoading: isCheckingOut } = useCheckout();
+  const { mutate: checkout, isLoading: isCheckingOut } = useCheckout();
 
   const navigate = useNavigate();
 
@@ -126,6 +127,15 @@ function BookingRow({
             onClick={() => navigate(`/checkin/${bookingId}`)}
           >
             Check in
+          </Menus.Button>
+        )}
+        {status === "checked-in" && (
+          <Menus.Button
+            icon={<HiArrowUpOnSquare />}
+            onClick={() => checkout(bookingId)}
+            disable={isCheckingOut}
+          >
+            Check out
           </Menus.Button>
         )}
       </Menus.List>

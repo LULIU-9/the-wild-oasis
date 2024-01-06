@@ -17,6 +17,7 @@ import { useMoveBack } from "../../hooks/useMoveBack";
 // import { useCheckout } from "features/check-in-out/useCheckout";
 import ButtonText from "../../ui/ButtonText";
 import Empty from "../../ui/Empty";
+import { useCheckout } from "../check-in-out/useCheckout";
 
 const HeadingGroup = styled.div`
   display: flex;
@@ -27,7 +28,7 @@ const HeadingGroup = styled.div`
 function BookingDetail() {
   const { booking, isLoading } = useBooking();
   // // const { mutate: deleteBooking, isLoading: isDeleting } = useDeleteBooking();
-  // // const { mutate: checkout, isLoading: isCheckingOut } = useCheckout();
+  const { mutate: checkout, isLoading: isCheckingOut } = useCheckout();
 
   const moveBack = useMoveBack();
   const navigate = useNavigate();
@@ -63,11 +64,11 @@ function BookingDetail() {
           </Button>
         )}
 
-        {/*{status === 'checked-in' && (
+        {status === "checked-in" && (
           <Button onClick={() => checkout(bookingId)} disabled={isCheckingOut}>
             Check out
           </Button>
-        )} */}
+        )}
 
         {/* <Modal>
           <Modal.Toggle opens='delete'>

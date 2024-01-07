@@ -14,7 +14,7 @@ export async function login({ email, password }) {
   return data;
 }
 
-export async function getUser({ email, password }) {
+export async function getUser() {
   const { data: session } = await supabase.auth.getSession();
   if (!session.session) return null;
 
@@ -30,6 +30,21 @@ export async function getUser({ email, password }) {
 
 export async function logout() {
   const { error } = await supabase.auth.signOut();
+  if (error) {
+    console.error(error);
+    throw new Error(error.message);
+  }
+}
+
+export async function signup({ fullName, email, password }) {
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      fullName,
+      avatar: "",
+    },
+  });
   if (error) {
     console.error(error);
     throw new Error(error.message);

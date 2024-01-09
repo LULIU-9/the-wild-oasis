@@ -4,6 +4,10 @@
 
 The Wild Oasis is a hotel management system that efficiently handles cabins, bookings, and various settings. Developed using Vite, React, Styled-components, React Query, React Hot Toast, Recharts, Supabase, React Hook Form, and Compound Components.
 
+## Deployment 🚀
+
+The Wild Oasis is deployed at [Vercel](https://the-wild-oasis-plum-five.vercel.app/).
+
 ## Features 🛠️
 
 ### Cabins Management 🏡
@@ -58,16 +62,8 @@ The Wild Oasis is a hotel management system that efficiently handles cabins, boo
 3. **Configure Supabase**: Set up Supabase credentials.
 4. **Run the Application**: `npm start`
 
-## Deployment 🚀
-
-The Wild Oasis is deployed at [Vercel](https://the-wild-oasis-plum-five.vercel.app/).
-
 ## Credits and Acknowledgments 👏
 
 This project is inspired by and developed based on Jonas Schmedtmann's tutorial.
-
-## License 📜
-
-This project is licensed under the [MIT License](LICENSE).
 
 ---
